@@ -1,0 +1,5 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"Point","coordinates":[89.52780680007467,26.49894410022752,0]},"properties":{"name":"College Halt Market","description":"FGXH+H4F\nAlipurduar, West Bengal 736121","styleUrl":"#m_ylw-pushpin","icon-scale":1.1,"icon-offset":[20,2],"icon-offset-units":["pixels","pixels"],"icon":"http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[89.52714129968247,26.48060759955219,0]},"properties":{"name":"Alipurduar Bazar (Main Market)","styleUrl":"#m_ylw-pushpin","icon-scale":1.1,"icon-offset":[20,2],"icon-offset-units":["pixels","pixels"],"icon":"http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[89.38073899990894,26.85647089983706,0]},"properties":{"name":"Jaigaon super market","description":"V94J+9CM\nJaigaon, West Bengal 735182","styleUrl":"#m_ylw-pushpin","icon-scale":1.1,"icon-offset":[20,2],"icon-offset-units":["pixels","pixels"],"icon":"http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png"}}
+]}

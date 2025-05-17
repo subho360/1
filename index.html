@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>District & Feature GeoJSON Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    #map { height: 90vh; width: 100%; }
+    .control-bar { padding: 10px; background: white; z-index: 1000; position: absolute; top: 10px; right: 10px; border-radius: 6px; box-shadow: 0 0 6px #aaa; }
+    select { margin-bottom: 8px; width: 150px; }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+<div class="control-bar">
+  <select id="districtSelect">
+    <option value="alipurduar">Alipurduar</option>
+    <option value="darjeeling">coochbehar</option>
+    <option value="jalpaiguri">Jalpaiguri</option>
+  </select><br>
+
+  <select id="featureSelect">
+    <option value="TOURIST SPOT">TOURIST SPOT</option>
+    <option value="food">Food</option>
+    <option value="atm">ATM</option>
+    <option value="hospital">Hospital</option>
+    <option value="medical">Medical</option>
+    <option value="hotel">hotel</option>
+    <option value="nursing_home">Nursing Home</option>
+    <option value="adventure">Adventure</option>
+    <option value="market">Market</option>
+    <option value="home_stay">Home Stay</option>
+  </select>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const map = L.map('map').setView([26.5, 89.5], 10);
+
+  // Add base layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  let currentLayer = null;
+
+  function loadGeoJSON(district, feature) {
+    if (currentLayer) {
+      map.removeLayer(currentLayer);
+    }
+
+    const url = `geojson/${district}/${feature}.geojson`;
+
+    fetch(url)
+      .then(res => {
+        if (!res.ok) throw new Error("File not found");
+        return res.json();
+      })
+      .then(data => {
+        currentLayer = L.geoJSON(data, {
+          onEachFeature: function (feature, layer) {
+            if (feature.properties && feature.properties.name) {
+              layer.bindPopup(feature.properties.name);
+            }
+          }
+        }).addTo(map);
+
+        try {
+          map.fitBounds(currentLayer.getBounds());
+        } catch (e) {
+          console.log("No bounds found");
+        }
+      })
+      .catch(err => {
+        alert(`Unable to load ${feature} data for ${district}.`);
+        console.error(err);
+      });
+  }
+
+  const districtSelect = document.getElementById("districtSelect");
+  const featureSelect = document.getElementById("featureSelect");
+
+  // Initial load
+  loadGeoJSON(districtSelect.value, featureSelect.value);
+
+  // When district or feature changes
+  districtSelect.addEventListener("change", () => {
+    loadGeoJSON(districtSelect.value, featureSelect.value);
+  });
+
+  featureSelect.addEventListener("change", () => {
+    loadGeoJSON(districtSelect.value, featureSelect.value);
+  });
+</script>
+
+</body>
+</html>
